@@ -16,7 +16,7 @@ var app = function () {
     database.ref('entries/' + data.id).set(data);
   };
 
-  var capture = function (el) {
+  var capture = function (el, li) {
     return function (e) {
       e.preventDefault();
 
@@ -30,6 +30,8 @@ var app = function () {
           };
 
           database.bbk.writeImage(data);
+          li.className = 'dropdown-menu right toggles-menu';
+          window.open('http://eray.js.org/entry-yakalayan/' + data.id);
         }
       });
     }
@@ -53,7 +55,7 @@ var app = function () {
         li.appendChild(a);
         list.appendChild(li);
 
-        li.addEventListener('click', capture(element));
+        li.addEventListener('click', capture(element, li));
       }
     }
   }

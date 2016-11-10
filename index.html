@@ -23,6 +23,7 @@
                 var img = document.createElement('img');
                 img.src = obj.image;
                 document.body.appendChild(img);
+                document.title = obj.title + '@' + obj.author;
             });
         };
 
