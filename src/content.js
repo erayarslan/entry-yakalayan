@@ -2,67 +2,76 @@
  * @author Eray Arslan
  */
 
-var app = function () {
-  var title = document
-    .getElementById("title")
-    .innerText;
 
-  var capture = function (el) {
-    return function (e) {
+
+
+var app = {
+  entryEl: void 0,
+  title: document.getElementById('title').innerText,
+  clickEl: function (el, next) {
+    return (function (e) {
       e.preventDefault();
+      this.capture(el, next)
+    }).bind(this);
+  },
+  capture: function (el, next) {
+    el._list.classList.remove("open");
+    html2canvas(el, {
+      onrendered: function (canvas) {
+        el._list.classList.add("open");
+        next(el, canvas.toDataURL());
+      }
+    });
+  },
+  createImage: function (base64) {
+    var image = new Image();
+    image.src = base64;
 
-      html2canvas(el, {
-        onrendered: function (canvas) {
-          var data = {
-            id: el.getAttribute("data-id"),
-            author: el.getAttribute("data-author"),
-            title: title,
-            image: canvas.toDataURL()
-          };
+    return image;
+  },
+  openImage: function (image) {
+    var w = window.open("");
+    w.document.write(image.outerHTML);
+  },
+  success: function (el, base64) {
+    var data = {
+      id: el.getAttribute("data-id"),
+      author: el.getAttribute("data-author"),
+      title: this.title,
+      image: base64
+    };
 
-          var image = new Image();
-          image.src = data.image;
-
-          var w = window.open("");
-          w.document.title = data.author + " #" + data.title;
-          w.document.write(image.outerHTML);
-        }
-      });
-    }
-  };
-
-  var entryList = document.getElementById('entry-list');
-
-  if (entryList) {
+    this.openImage(this.createImage(data.image));
+  },
+  init: function (entryList) {
     var entryListChildren = entryList.children;
     for (var i = 0; i < entryListChildren.length; i++) {
       var element = entryListChildren[i];
       if (element.tagName === 'LI') {
-        var reportLink = element
-          .getElementsByClassName('report-link')[0];
+        var list = element
+          .querySelectorAll(".dropdown-menu.right.toggles-menu")[0];
 
-        var list = reportLink
-          .parentElement
-          .parentElement;
+        element._list = list;
 
         var li = document.createElement('li');
         var a = document.createElement('a');
         a.title = 'başlık başa kalmasın';
         a.href = '#';
         a.innerText = 'yakala';
-        a.className = 'report-link';
         li.appendChild(a);
         list.appendChild(li);
 
-        li.addEventListener('click', capture(element));
+        var event = this.clickEl(element, this.success.bind(this));
+        li.addEventListener('click', event);
       }
     }
   }
 };
 
+
 var entryList = document
   .getElementById('entry-list');
 
 if (entryList) {
-  app();
+  app.init(entryList);
 }
