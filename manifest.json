@@ -1,5 +1,5 @@
 {
-  "name": "entry yakalayan",
+  "name": "entry-yakalayan",
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "relfishere@gmail.com",
@@ -9,7 +9,6 @@
         "https://eksisozluk.com/*"
       ],
       "js": [
-        "src/firebase.js",
         "src/html2canvas.min.js",
         "src/content.js"
       ]
