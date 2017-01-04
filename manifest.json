@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "relfishere@gmail.com",
+  "icons": {
+    "48": "assets/icon48.png"
+  },
   "content_scripts": [
     {
       "matches": [
