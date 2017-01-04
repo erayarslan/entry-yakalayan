@@ -2,12 +2,10 @@
  * @author Eray Arslan
  */
 
-
-
-
 var app = {
-  entryEl: void 0,
-  title: document.getElementById('title').innerText,
+  title: document
+    .getElementById('title')
+    .innerText,
   clickEl: function (el, next) {
     return (function (e) {
       e.preventDefault();
@@ -67,7 +65,6 @@ var app = {
     }
   }
 };
-
 
 var entryList = document
   .getElementById('entry-list');
